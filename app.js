@@ -1,22 +1,29 @@
-function fetchPays() {
-  fetch('https://restcountries.com/v3.1/all')
+const carte = document.getElementById('carte');
+// const allPays = [];
+// ______________________________________________
+
+function fetchPays(api) {
+  fetch(api)
     .then((response) => response.json())
     .then((data) => {
-      const carte = document.getElementById('carte');
+      console.log(data);
       data.forEach((pays) => {
+        // allPays.push(pays);
         const contain = document.createElement('div');
         contain.classList.add('col-sm-6');
         contain.classList.add('col-md-4');
         contain.classList.add('col-lg-3');
         contain.classList.add('mb-3');
-        contain.id = pays.id;
+        contain.id = 'paysId';
         contain.innerHTML = `
-            <div class="card bg-light shadow">
+            <div class="card changeBg shadow" >
                 <div class="drapeau">
                 <img src="${pays.flags.png}" alt="">
                 </div>
                 <div class="card-body py-4">
-                    <h5 class="card-title fw-semibold">${pays.name.common}</h5>
+                    <span>
+                        <h5><span class="fw-semibold">${pays.name.common}</span></h5>
+                    </span>
                     <span>
                         <h6>Population: <span class="fw-light">${pays.population}</span></h6>
                     </span>
@@ -29,8 +36,14 @@ function fetchPays() {
                 </div>
             </div>
             `;
-        // console.log(pays);
         carte.appendChild(contain);
+
+        // Détails pays
+        // let card = document.querySelector('.card');
+        // card.addEventListener('click', (e) => {
+        //   e.preventDefault();
+        //   console.log();
+        // });
       });
     })
     .catch((error) => {
@@ -40,9 +53,18 @@ function fetchPays() {
       );
     });
 }
-fetchPays();
+fetchPays('https://restcountries.com/v3.1/all');
 
-// ___________________________
+// Recherche pays ou continent
+let form = document.querySelector('form');
+form.addEventListener('input', (e) => {
+  let inputValue = e.target.value;
+  carte.innerHTML = '';
+  fetchPays(`https://restcountries.com/v3.1/region/${inputValue}`) ||
+    fetchPays(`https://restcountries.com/v3.1/name/${inputValue}`);
+});
+
+// _______________________________
 // Changer le theme de la page
 let toggleBtn = document.getElementById('toggle-btn');
 let body = document.querySelector('#myBody');

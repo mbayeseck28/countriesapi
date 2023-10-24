@@ -23,11 +23,11 @@ body.dark{
    --black:#F8F9FA;
 }
 
-#myBody{
+.changeBg{
    background-color: var(--white);
 }
 
-h5{
+h5, h6, .changeText, ::placeholder{
    color:var(--black);
 }
 
@@ -41,8 +41,6 @@ h5{
    font-size: 30px;
    cursor: pointer;
    text-align: center;
-   /* position: fixed;
-   top:20px; right: 30px; */
 }
 
 #toggle-btn.fa-moon{
